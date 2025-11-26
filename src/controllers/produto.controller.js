@@ -1,93 +1,97 @@
 const { 
     criarProduto, 
     listarProdutos, 
-    atualizarProduto, 
-    atualizarProdutoCompleto,
+    atualizarProduto,
+    atualizarProdutoCompleto, 
     apagarProduto 
 } = require('../services/produto.service')
 
-async function criar(req, res) {
+async function criar(req, res){
 
-    try {
+    try{
 
         const produto = await criarProduto(req.body)
 
         return res.status(201).json({
-            mensagem: 'Produto criado com sucesso',
+            message: 'Produto criado com sucesso',
             produto
         })
+    }catch(err){
 
-    } catch (err) {
-        return res.status(500).json({ erro: err.message })
+        return res.status(500).json({error: err.message})
     }
 }
 
-async function listar(req, res) {
-    try {
+async function listar(req, res){
+
+    try{
 
         const produto = await listarProdutos()
         return res.status(200).json(produto)
-    } catch (err) {
-        return res.status(500).json({ erro: err.message })
+    }catch(err){
+
+        return res.status(500).json({error: err.message})
     }
 }
 
 // Atualizar parcialmente produto (PATCH /produto/)
-async function atualizar(req, res) {
-    try {
+async function atualizar(req, res){
+
+    try{
+
         const { id } = req.params
         const dados = req.body
 
         const produtoAtualizado = await atualizarProduto(id, dados)
 
         return res.status(200).json({
-            mensagem: 'Produto atualizado com sucesso',
+            message: 'Produto atualizado com sucesso',
             produto: produtoAtualizado
         })
+    }catch(err){
 
-    } catch (err) {
-        return res.status(500).json({ erro: err.message })
+        return res.status(500).json({error: err.message})
     }
-
 }
 
-// PUT - Atualização total
 async function atualizarCompleto(req, res) {
-    try {
+    
+    try{
+
         const { id } = req.params
         const dados = req.body
 
         const produtoAtualizado = await atualizarProdutoCompleto(id, dados)
 
         return res.status(200).json({
-            mensagem: 'Produto atualizado completamente com sucesso',
+            message: 'Produto atualizado completamente com sucesso',
             produto: produtoAtualizado
         })
+    }catch(err){
 
-    } catch (err) {
-        return res.status(500).json({ erro: err.message })
+        return res.status(500).json({error: err.message})
     }
 }
 
 // DELETE - apagar
-async function apagar(req, res) {
-    try {
-        const { id } = req.params
+async function apagar(req, res){
 
+    try{
+
+        const { id } = req.params
         await apagarProduto(id)
 
-        return res.status(200).json({ mensagem: 'Produto apagado com sucesso' })
+        return res.status(200).json({ message: 'Produto apagado com sucesso' })
+    }catch(err){
 
-    } catch (err) {
-        return res.status(500).json({ erro: err.message })
+        return res.status(500).json({ error: err.message })
     }
 }
-
 
 module.exports = { 
     criar, 
     listar, 
-    atualizar, 
+    atualizar,
     atualizarCompleto, 
     apagar 
 }

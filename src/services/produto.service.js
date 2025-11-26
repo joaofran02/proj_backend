@@ -1,11 +1,19 @@
 const Produto = require('../models/Produto')
 
-async function criarProduto(dados) {
+async function criarProduto(dados){
 
-    const { nome, descricao, modelo, preco, imagem_url, ativo } = dados
+    const { 
+        nome, 
+        descricao, 
+        modelo, 
+        preco, 
+        imagem_url, 
+        ativo 
+    } = dados
 
     // Validações simples antes de salvar
-    if (!nome || !modelo || !preco) {
+    if(!nome || !modelo || !preco){
+
         throw new Error('Nome, modelo e preço são obrigatórios')
     }
 
@@ -17,17 +25,16 @@ async function criarProduto(dados) {
         imagem_url,
         ativo
     })
-
     return novoProduto
 }
 
-async function listarProdutos() {
+async function listarProdutos(){
     
     const produtos = await Produto.findAll()
     return produtos
 }
 
-async function atualizarProduto(id, dados) {
+async function atualizarProduto(id, dados){
 
     // Buscar o produto no banco
     const produto = await Produto.findByPk(id)
@@ -38,23 +45,29 @@ async function atualizarProduto(id, dados) {
 
     // Atualizar apenas os campos enviados
     await produto.update(dados)
-
     return produto
-
 }
 
 async function atualizarProdutoCompleto(id, dados) {
 
     const produto = await Produto.findByPk(id)
+    if(!produto){
 
-    if (!produto) {
         throw new Error('Produto não encontrado')
     }
 
-    const { nome, descricao, modelo, preco, imagem_url, ativo } = dados
+    const {
+        nome,
+        descricao,
+        modelo,
+        preco,
+        imagem_url, 
+        ativo 
+    } = dados
 
     // Validações básicas
-    if (!nome || !modelo || !preco) {
+    if(!nome || !modelo || !preco){
+
         throw new Error('Nome, modelo e preço são obrigatórios')
     }
 
@@ -66,11 +79,10 @@ async function atualizarProdutoCompleto(id, dados) {
         imagem_url,
         ativo
     })
-
     return produto
 }
 
-async function apagarProduto(id) {
+async function apagarProduto(id){
 
     const produto = await Produto.findByPk(id)
 
@@ -79,10 +91,14 @@ async function apagarProduto(id) {
     }
 
     await produto.destroy()
-
     return true
 }
 
 
-module.exports = { criarProduto, listarProdutos, 
-    atualizarProduto, atualizarProdutoCompleto, apagarProduto }
+module.exports = { 
+    criarProduto, 
+    listarProdutos, 
+    atualizarProduto,
+    atualizarProdutoCompleto,
+    apagarProduto 
+}
