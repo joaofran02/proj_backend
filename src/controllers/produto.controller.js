@@ -81,10 +81,10 @@ async function apagar(req, res){
         const { id } = req.params
         await apagarProduto(id)
 
-        return res.status(200).json({ message: 'Produto apagado com sucesso' })
+        return res.status(204).json({message: 'Produto apagado com sucesso'})
     }catch(err){
 
-        return res.status(500).json({ error: err.message })
+        return res.status(500).json({error: err.message})
     }
 }
 

@@ -1,36 +1,54 @@
 const Usuario = require('../models/Usuario')
-const { validaEmail, validaTelefone, validaCPF } = require('../utils/validacao')
+const { 
+    validaEmail, 
+    validaTelefone, 
+    validaCPF 
+} = require('../utils/validacao')
 const { hashSenha } = require('../utils/criptografia')
 
-async function cadastrar(dados) {
-    const { nome, email, telefone, cpf, identidade, senha, tipo_usuario  } = dados
+async function cadastrarUsuario(dados) {
+    const { 
+        nome, 
+        email, 
+        telefone, 
+        cpf, 
+        identidade, 
+        senha, 
+        tipo_usuario  
+    } = dados
 
     // -------- validações --------
-    if (!nome || !email || !telefone || !cpf || !senha) {
+    if(!nome || !email || !telefone || !cpf || !senha){
+
         throw new Error('Campos obrigatórios não informados')
     }
 
-    if (!validaEmail(email)) {
+    if(!validaEmail(email)){
+
         throw new Error('Email inválido')
     }
 
-    if (!validaTelefone(telefone)) {
+    if(!validaTelefone(telefone)){
+
         throw new Error('Telefone inválido')
     }
 
-    if (!validaCPF(cpf)) {
+    if(!validaCPF(cpf)){
+
         throw new Error('CPF inválido')
     }
     
 
     // -------- verificar duplicidade --------
-    const usuarioEmail = await Usuario.findOne({ where: { email } })
-    if (usuarioEmail) {
+    const usuarioEmail = await Usuario.findOne({where: { email }})
+    if(usuarioEmail){
+
         throw new Error('Email já está cadastrado')
     }
 
-    const usuarioCPF = await Usuario.findOne({ where: { cpf } })
-    if (usuarioCPF) {
+    const usuarioCPF = await Usuario.findOne({where: { cpf }})
+    if(usuarioCPF){
+
         throw new Error('CPF já está cadastrado')
     }
 
@@ -48,7 +66,9 @@ async function cadastrar(dados) {
         tipo_usuario: tipo_usuario
     })
 
-    return { ok: true }
+    return {ok: true}
 }
 
-module.exports = { cadastrar }
+module.exports = { 
+    cadastrarUsuario 
+}
