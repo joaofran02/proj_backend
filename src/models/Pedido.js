@@ -25,16 +25,6 @@ const Pedido = db.define('pedido',{
         allowNull: false,
         defaultValue: 'PENDENTE_PAGAMENTO'
     },
-    valorSubtotal: {
-        type: DataTypes.DECIMAL(10,2), 
-        allowNull: false,
-        defaultValue: 0.00
-    },
-    valorFrete: {
-        type: DataTypes.DECIMAL(10,2), 
-        allowNull: false,
-        defaultValue: 0.00
-    },
     valorTotal: {
         type: DataTypes.DECIMAL(10,2), 
         allowNull: false,

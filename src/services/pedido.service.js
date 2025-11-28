@@ -1,21 +1,15 @@
 const Pedido = require('../models/Pedido')
+const ItemPedido = require('../models/ItemPedido')
+const Produto = require('../models/Produto')
 
 async function criarPedido(dados){
 
     const { 
-        idUsuario, 
-        dataPedido, 
-        status, 
-        valorSubtotal, 
-        valorFrete, 
-        valorTotal 
+        nomeUsuario,
+        nomeProduto,
+        valorTotal,
+        itens
     } = dados
-
-    // Validações simples antes de salvar
-    if(!idUsuario || !dataPedido || !status || !valorSubtotal || !valorFrete){
-
-        throw new Error('Todos os campos são obrigatórios.')
-    }
 
     const novoPedido = await Pedido.create({
         idUsuario,

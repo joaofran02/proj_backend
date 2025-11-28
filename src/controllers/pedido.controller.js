@@ -1,9 +1,7 @@
 const { 
     criarPedido, 
     listarPedido, 
-    atualizarPedido, 
-    atualizarPedidoCompleto,
-    apagarPedido 
+    atualizarPedido
 } = require('../services/pedido.service')
 
 async function criar(req, res) {
