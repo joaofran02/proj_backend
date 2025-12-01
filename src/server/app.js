@@ -15,6 +15,7 @@ const usuarioRoutes = require('../routes/usuario.routes')
 const authRoutes = require('../routes/auth.routes')
 const produtoRoutes = require('../routes/produto.routes')
 const pedidoRoutes = require('../routes/pedido.routes')
+const estoqueRoutes = require('../routes/estoque.routes')
 // ---------------------------------------------------------
 
 
@@ -24,15 +25,18 @@ app.use('/usuario', usuarioRoutes)
 
 // Login
 app.use('/', authRoutes)
-
-// Pedido
-app.use('/pedido', pedidoRoutes)
 // ---------------------------------------------------------
 
 
 // -------------------- Rotas Privadas ---------------------
+// Pedido
+app.use('/pedido', pedidoRoutes)
+
 // Produto
 app.use('/produto', produtoRoutes)
+
+// Estoque
+app.use('/produto', estoqueRoutes)
 // ---------------------------------------------------------
 
 

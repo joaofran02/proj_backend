@@ -16,15 +16,20 @@ const Estoque = db.define('estoque',{
             key: 'codProduto'  
         }
     },
-    quantidade_atual: {
+    quantidade: {
         type: DataTypes.INTEGER,
         allowNull: true,
         defaultValue: 0 // Saldo atual do item no estoque
     },
-    quantidade_minima: {
+    movimentacao: {
         type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: 0 // Quantidade mínima
+        allowNull: false,
+        defaultValue: 0 // Última quantidade movimentada
+    },
+    tipo: {
+        type: DataTypes.ENUM('ENTRADA', 'SAIDA'),
+        allowNull: false,
+        defaultValue: 'ENTRADA'
     }
 },{
     // ALTERADO: Manter timestamps (createdAt e updatedAt) é útil para auditoria do estoque

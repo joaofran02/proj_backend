@@ -1,14 +1,15 @@
 const Produto = require('../models/Produto')
+const Estoque = require('../models/Estoque')
 
 async function criarProduto(dados){
 
-    const { 
-        nome, 
-        descricao, 
-        modelo, 
-        preco, 
-        imagem_url, 
-        ativo 
+    const {
+        nome,
+        descricao,
+        modelo,
+        preco,
+        imagem_url,
+        ativo
     } = dados
 
     // Validações simples antes de salvar
@@ -25,12 +26,26 @@ async function criarProduto(dados){
         imagem_url,
         ativo
     })
+
+    // Criar entrada no estoque automaticamente
+    await Estoque.create({
+        idProduto: novoProduto.codProduto,
+        quantidade: 0, // Inicia com quantidade 0
+        movimentacao: 0
+    })
+
     return novoProduto
 }
 
 async function listarProdutos(){
-    
-    const produtos = await Produto.findAll()
+
+    const produtos = await Produto.findAll({
+        include: [{
+            model: Estoque,
+            as: 'estoqueProduto',
+            attributes: ['quantidade', 'movimentacao']
+        }]
+    })
     return produtos
 }
 
