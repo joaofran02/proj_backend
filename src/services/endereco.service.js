@@ -47,61 +47,6 @@ async function criarEndereco(dados, idUsuario){
     return novoEndereco
 }
 
-async function listarEnderecos(idUsuario){
-
-    const enderecos = await Endereco.findAll({
-        where: { idUsuario },
-        order: [['is_principal', 'DESC'], ['createdAt', 'DESC']]
-    })
-    return enderecos
-}
-
-async function atualizarEndereco(id, dados, idUsuario){
-
-    const endereco = await Endereco.findOne({
-        where: { codEndereco: id, idUsuario }
-    })
-
-    if (!endereco) {
-        throw new Error('Endereço não encontrado')
-    }
-
-    const { cep, numero, complemento, apelido, is_principal } = dados
-
-    let updateData = { numero, complemento, apelido }
-
-    // Se CEP mudou, buscar novos dados
-    if (cep && cep !== endereco.cep) {
-        const viaCepResponse = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
-        const viaCepData = viaCepResponse.data
-
-        if (viaCepData.erro) {
-            throw new Error('CEP inválido')
-        }
-
-        updateData = {
-            ...updateData,
-            cep,
-            logradouro: viaCepData.logradouro,
-            bairro: viaCepData.bairro,
-            localidade: viaCepData.localidade,
-            uf: viaCepData.uf
-        }
-    }
-
-    // Se is_principal, desmarcar outros
-    if (is_principal) {
-        await Endereco.update(
-            { is_principal: false },
-            { where: { idUsuario } }
-        )
-        updateData.is_principal = true
-    }
-
-    await endereco.update(updateData)
-    return endereco
-}
-
 async function apagarEndereco(id, idUsuario){
 
     const endereco = await Endereco.findOne({
@@ -116,9 +61,15 @@ async function apagarEndereco(id, idUsuario){
     return true
 }
 
+async function consultarEndereco(codigo, idUsuario){
+
+    const endereco = await Endereco.findOne({where: {codEndereco: codigo, idUsuario}})
+
+    return endereco
+}
+
 module.exports = {
     criarEndereco,
-    listarEnderecos,
-    atualizarEndereco,
-    apagarEndereco
+    apagarEndereco,
+    consultarEndereco
 }

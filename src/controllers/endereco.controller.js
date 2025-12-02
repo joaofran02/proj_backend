@@ -1,8 +1,7 @@
 const {
     criarEndereco,
-    listarEnderecos,
-    atualizarEndereco,
-    apagarEndereco
+    apagarEndereco,
+    consultarEndereco
 } = require('../services/endereco.service')
 
 async function criar(req, res) {
@@ -17,36 +16,7 @@ async function criar(req, res) {
     }
 }
 
-async function listar(req, res) {
-
-    try{
-
-        const enderecos = await listarEnderecos(req.user.id)
-        return res.status(200).json(enderecos)
-    }catch(err){
-
-        return res.status(500).json({error: err.message})
-    }
-}
-
-async function atualizar(req, res) {
-
-    try{
-
-        const { id } = req.params
-        const enderecoAtualizado = await atualizarEndereco(id, req.body, req.user.id)
-
-        return res.status(200).json({
-            message: 'Endereço atualizado com sucesso',
-            endereco: enderecoAtualizado
-        })
-    }catch(err){
-
-        return res.status(500).json({error: err.message})
-    }
-}
-
-async function apagar(req, res) {
+async function apagar(req, res){
 
     try{
 
@@ -60,9 +30,28 @@ async function apagar(req, res) {
     }
 }
 
+async function consultar(req, res) {
+
+    try{
+
+        const { codigo } = req.params
+        const cod = parseInt(codigo)
+        if (isNaN(cod)) {
+            return res.status(400).json({error: 'Código inválido'})
+        }
+        const endereco = await consultarEndereco(cod, req.user.id)
+        if (!endereco) {
+            return res.status(404).json({error: 'Endereço não encontrado'})
+        }
+        return res.status(200).json(endereco)
+    }catch(err){
+
+        return res.status(500).json({error: err.message})
+    }
+}
+
 module.exports = {
     criar,
-    listar,
-    atualizar,
-    apagar
+    apagar,
+    consultar
 }

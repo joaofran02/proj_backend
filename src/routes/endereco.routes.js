@@ -5,7 +5,8 @@ const {
     criar,
     listar,
     atualizar,
-    apagar
+    apagar,
+    consultar
 } = require('../controllers/endereco.controller')
 
 // Middlewares
@@ -18,25 +19,18 @@ router.post(
     criar
 )
 
-// GET /endereco
-router.get(
-    '/',
-    authMiddleware,
-    listar
-)
-
-// PATCH /endereco/:id
-router.patch(
-    '/:id',
-    authMiddleware,
-    atualizar
-)
-
 // DELETE /endereco/:id
 router.delete(
     '/:id',
     authMiddleware,
     apagar
+)
+
+// GET /endereco/:codigo
+router.get(
+    '/:codigo',
+    authMiddleware,
+    consultar
 )
 
 module.exports = router
