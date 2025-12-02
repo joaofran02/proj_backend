@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize')
-const db = require('../db/conn') 
+const db = require('../db/conn')
 
 const Entrega = db.define('entrega',{
     codEntrega: {
@@ -7,56 +7,43 @@ const Entrega = db.define('entrega',{
         primaryKey: true,
         autoIncrement: true
     },
-    idPedido: { // Chave estrangeira
+    idPedido: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true, 
+        unique: true, // Garante o relacionamento 1:1 com Pedido
         references: {
             model: 'pedidos', 
             key: 'codPedido'  
         }
     },
-    cep: { 
-        type: DataTypes.STRING(9), 
-        allowNull: false 
-    },
-    logradouro: { 
-        type: DataTypes.STRING(70), 
-        allowNull: false 
-    },
-    complemento: { 
-        type: DataTypes.STRING(100), 
-        allowNull: true 
-    },
-    bairro: { 
-        type: DataTypes.STRING(70),
-        allowNull: false 
-    },
-    localidade: { 
-        type: DataTypes.STRING(70), 
-        allowNull: false 
-    },
-    uf: { 
-        type: DataTypes.STRING(2), 
-        allowNull: false 
-    },
-    numero: { 
-        type: DataTypes.STRING(12), 
-        allowNull: false 
-    },    
     dataEstimada: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATEONLY, // Apenas a data, sem o horário
+        allowNull: true
+    },
+    dataEntrega: {
+        type: DataTypes.DATE, // Data real da entrega finalizada
         allowNull: true
     },
     codigoRastreio: {
         type: DataTypes.STRING(50),
         allowNull: true,
-        unique: true
+        unique: true // Cada código de rastreio deve ser único
+    },
+    transportadora: {
+        type: DataTypes.STRING(50),
+        allowNull: true
     },
     statusEntrega: {
-        type: DataTypes.ENUM('EM_TRANSITO', 'SAIU_PARA_ENTREGA', 'ENTREGUE', 'EXTRAVIADO'),
+        type: DataTypes.ENUM(
+            'AGUARDANDO_ENVIO', 
+            'EM_TRANSITO', 
+            'SAIU_PARA_ENTREGA', 
+            'ENTREGUE', 
+            'EXTRAVIADO',
+            'DEVOLVIDO'
+        ),
         allowNull: false,
-        defaultValue: 'EM_TRANSITO'
+        defaultValue: 'AGUARDANDO_ENVIO'
     }
 },{
     timestamps: true,

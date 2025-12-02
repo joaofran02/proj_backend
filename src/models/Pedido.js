@@ -26,9 +26,17 @@ const Pedido = db.define('pedido',{
         defaultValue: 'PENDENTE_PAGAMENTO'
     },
     valorTotal: {
-        type: DataTypes.DECIMAL(10,2), 
+        type: DataTypes.DECIMAL(10,2),
         allowNull: false,
         defaultValue: 0.00
+    },
+    idEndereco: {
+        type: DataTypes.INTEGER,
+        allowNull: true, // Pode ser null se endereço for deletado
+        references: {
+            model: 'enderecos',
+            key: 'codEndereco'
+        }
     }
 },{
     timestamps: true,

@@ -125,55 +125,8 @@ async function atualizarPedido(id, dados){
     return pedido
 }
 
-async function atualizarPedidoCompleto(id, dados) {
-
-    const pedido = await Pedido.findByPk(id)
-    if(!pedido){
-        throw new Error('Pedido não encontrado')
-    }
-
-    const { 
-        idUsuario, 
-        dataPedido, 
-        status, 
-        valorSubtotal, 
-        valorFrete,
-        valorTotal 
-    } = dados
-
-    // Validações básicas
-    if(!idUsuario || !dataPedido || !status || !valorSubtotal || !valorFrete){
-
-        throw new Error('Todos os campos são obrigatórios.')
-    }
-
-    await pedido.update({
-        idUsuario,
-        dataPedido,
-        status,
-        valorSubtotal,
-        valorFrete,
-        valorTotal
-    })
-    return pedido
-}
-
-async function apagarPedido(id){
-
-    const pedido = await Pedido.findByPk(id)
-    if(!pedido){
-
-        throw new Error('Pedido não encontrado')
-    }
-
-    await pedido.destroy()
-    return true
-}
-
 module.exports = { 
     criarPedido, 
     listarPedido, 
-    atualizarPedido, 
-    atualizarPedidoCompleto, 
-    apagarPedido 
+    atualizarPedido
 }

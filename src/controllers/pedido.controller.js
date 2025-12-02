@@ -9,7 +9,7 @@ async function criar(req, res) {
     try{
 
         const { itens } = req.body
-        const idUsuario = req.user.idUsuario
+        const idUsuario = req.user.id
 
         const dados = { idUsuario, itens }
         const pedido = await criarPedido(dados)
@@ -25,7 +25,7 @@ async function listar(req, res) {
 
     try{
 
-        const idUsuario = req.user.idUsuario
+        const idUsuario = req.user.id
         const tipo = req.user.tipo
 
         const pedidos = await listarPedido(idUsuario, tipo)
@@ -64,6 +64,4 @@ module.exports = {
     criar,
     listar,
     atualizar
-    // atualizarCompleto,
-    // apagar
 }

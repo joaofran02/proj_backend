@@ -4,13 +4,12 @@ const router = express.Router()
 const { 
     criar, 
     listar, 
-    atualizar, 
-    atualizarCompleto, 
-    apagar 
+    atualizar
 } = require('../controllers/pedido.controller')
 
 // Middlewares
 const authMiddleware = require('../middlewares/auth.middleware')
+const isAdminMiddleware = require('../middlewares/isAdmin.middleware')
 
 // POST /produto
 router.post(
@@ -30,21 +29,8 @@ router.get(
 router.patch(
     '/:id',
     authMiddleware,
+    isAdminMiddleware,
     atualizar
-)
-
-// PUT - completo
-router.put(
-    '/:id', 
-    authMiddleware, 
-    // atualizarCompleto
-)
-
-// DELETE
-router.delete(
-    '/:id',
-    authMiddleware,
-    // apagar
 )
 
 module.exports = router
