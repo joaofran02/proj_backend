@@ -36,7 +36,7 @@ app.use('/pedido', pedidoRoutes)
 app.use('/produto', produtoRoutes)
 
 // Estoque
-app.use('/produto', estoqueRoutes)
+app.use('/estoque', estoqueRoutes)
 // ---------------------------------------------------------
 
 

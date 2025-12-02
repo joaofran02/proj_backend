@@ -30,7 +30,7 @@ router.get(
 router.patch(
     '/:id',
     authMiddleware,
-    // atualizar
+    atualizar
 )
 
 // PUT - completo

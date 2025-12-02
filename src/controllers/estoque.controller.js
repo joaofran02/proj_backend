@@ -1,22 +1,6 @@
 const {
-    cadastrarEstoque,
     atualizarEstoque
 } = require('../services/estoque.service')
-
-async function cadastrar(req, res) {
-
-    try{
-
-        const valores = req.body
-        const resultado = await cadastrarEstoque(valores)
-
-        return res.status(201).json({message: 'Estoque cadastrado com sucesso', resultado})
-    }catch(err){
-
-        console.error('Erro no controller de cadastro:', err)
-        return res.status(500).json({mensage: 'Erro ao cadastrar produto no estoque', err})
-    }
-}
 
 async function atualizar(req, res) {
 
@@ -42,6 +26,5 @@ async function atualizar(req, res) {
 }
 
 module.exports = {
-    cadastrar,
     atualizar
 }

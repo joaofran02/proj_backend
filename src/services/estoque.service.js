@@ -1,30 +1,26 @@
 const Estoque = require('../models/Estoque')
 
-async function cadastrarEstoque(dados){
-
-
-}
-
 async function atualizarEstoque(idProduto, movimentacao, tipo){
 
     // Buscar o estoque do produto
-    const estoque = await Estoque.findOne({
-        where: { idProduto: idProduto }
-    })
+    const estoque = await Estoque.findOne({where:{idProduto}})
+    if(!estoque){
 
-    if (!estoque) {
         throw new Error('Estoque não encontrado para este produto')
     }
 
     let novaQuantidade = estoque.quantidade
 
     if(tipo === 'ENTRADA'){
+
         novaQuantidade += movimentacao
     }else if(tipo === 'SAIDA'){
-        novaQuantidade -= movimentacao
-        if(novaQuantidade < 0){
+
+        if(movimentacao > novaQuantidade){
+            
             throw new Error('Quantidade insuficiente em estoque')
         }
+        novaQuantidade -= movimentacao
     }
 
     // Atualizar quantidade e movimentacao
@@ -37,6 +33,5 @@ async function atualizarEstoque(idProduto, movimentacao, tipo){
 }
 
 module.exports = {
-    cadastrarEstoque,
     atualizarEstoque
 }

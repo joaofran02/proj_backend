@@ -1,10 +1,18 @@
 const express = require('express')
 const router = express.Router()
 
-const estoqueController = require('../controllers/estoque.controller')
+const {  
+    atualizar
+} = require('../controllers/estoque.controller')
 
-// Rota pública de login
-router.post('/estoque', estoqueController.cadastrar)
-router.patch('/estoque/:idProduto', estoqueController.atualizar)
+// Middlewares
+const authMiddleware = require('../middlewares/auth.middleware')
+const isAdminMiddleware = require('../middlewares/isAdmin.middleware')
+
+router.patch('/:idProduto',
+    authMiddleware,
+    isAdminMiddleware,
+    atualizar
+)
 
 module.exports = router
