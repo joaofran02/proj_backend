@@ -17,7 +17,6 @@ const produtoRoutes = require('../routes/produto.routes')
 const pedidoRoutes = require('../routes/pedido.routes')
 const estoqueRoutes = require('../routes/estoque.routes')
 const enderecoRoutes = require('../routes/endereco.routes')
-const categoriaProdutoRoutes = require('../routes/categoriaProduto.routes')
 // ---------------------------------------------------------
 
 
@@ -42,9 +41,6 @@ app.use('/estoque', estoqueRoutes)
 
 // Endereço
 app.use('/endereco', enderecoRoutes)
-
-// CategoriaProduto
-app.use('/CategoriaProduto', categoriaProdutoRoutes)
 // ---------------------------------------------------------
 
 
