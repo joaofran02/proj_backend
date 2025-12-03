@@ -18,23 +18,32 @@ async function criarProduto(dados){
         throw new Error('Nome, modelo e preço são obrigatórios')
     }
 
-    const novoProduto = await Produto.create({
-        nome,
-        descricao,
-        modelo,
-        preco,
-        imagem_url,
-        ativo
-    })
+    const db = require('../db/conn')
+    const transaction = await db.transaction()
 
-    // Criar entrada no estoque automaticamente
-    await Estoque.create({
-        idProduto: novoProduto.codProduto,
-        quantidade: 0, // Inicia com quantidade 0
-        movimentacao: 0
-    })
+    try {
+        const novoProduto = await Produto.create({
+            nome,
+            descricao,
+            modelo,
+            preco,
+            imagem_url,
+            ativo
+        }, { transaction })
 
-    return novoProduto
+        // Criar entrada no estoque automaticamente
+        await Estoque.create({
+            idProduto: novoProduto.codProduto,
+            quantidade: 0, // Inicia com quantidade 0
+            movimentacao: 0
+        }, { transaction })
+
+        await transaction.commit()
+        return novoProduto
+    } catch (error) {
+        await transaction.rollback()
+        throw error
+    }
 }
 
 async function listarProdutos(){
