@@ -91,42 +91,8 @@ async function criarPedido(dados){
     }
 }
 
-async function listarPedido(idUsuario, tipo){
 
-    const whereClause = tipo === 'ADMIN' ? {} : { idUsuario }
 
-    const pedidos = await Pedido.findAll({
-        where: whereClause,
-        include: [{
-            model: ItemPedido,
-            as: 'itensPedido',
-            include: [{
-                model: Produto,
-                as: 'produtoItem',
-                attributes: ['nome', 'preco', 'imagem_url']
-            }]
-        }],
-        order: [['dataPedido', 'DESC']]
-    })
-    return pedidos
-}
-
-async function atualizarPedido(id, dados){
-
-    // Buscar o Pedido no banco
-    const pedido = await Pedido.findByPk(id)
-    if(!pedido){
-
-        throw new Error('Pedido não encontrado.')
-    }
-
-    // Atualizar apenas os campos enviados
-    await Pedido.update(dados)
-    return pedido
-}
-
-module.exports = { 
-    criarPedido, 
-    listarPedido, 
-    atualizarPedido
+module.exports = {
+    criarPedido
 }

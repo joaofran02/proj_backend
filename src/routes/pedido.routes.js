@@ -1,10 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const { 
-    criar, 
-    listar, 
-    atualizar
+const {
+    criar
 } = require('../controllers/pedido.controller')
 
 // Middlewares
@@ -16,21 +14,6 @@ router.post(
     '/',
     authMiddleware,      
     criar
-)
-
-// GET – Listar pedidos (qualquer usuário logado)
-router.get(
-    '/',
-    authMiddleware,
-    listar
-)
-
-// Atualizar parcialmente
-router.patch(
-    '/:id',
-    authMiddleware,
-    isAdminMiddleware,
-    atualizar
 )
 
 module.exports = router
