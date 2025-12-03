@@ -17,7 +17,7 @@ async function startServer() {
     if(!isProduction){
 
       // Em desenvolvimento: sincroniza alterando o esquema para facilitar dev
-      await conn.sync({ alter: true })
+      await conn.sync({ force: true })
       console.log('Banco sincronizado (dev) com { alter: true }');
     }else{
 
