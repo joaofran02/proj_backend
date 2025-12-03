@@ -4,7 +4,6 @@ const Produto = require('./Produto')
 const ItemPedido = require('./ItemPedido')
 const Endereco = require('./Endereco')
 const Estoque = require('./Estoque')
-const CategoriaProduto = require('./CategoriaProduto')
 
 // -------------------------------------------------------------------------
 // 1. RELACIONAMENTOS USUÁRIO (codUsuario)
@@ -72,23 +71,6 @@ ItemPedido.belongsTo(Pedido, {
 // -------------------------------------------------------------------------
 // 3. RELACIONAMENTOS PRODUTO (codProduto) - RESTRICT para vendas é CRÍTICO
 // -------------------------------------------------------------------------
-
-// PRODUTO <-> CATEGORIA (N:1)
-CategoriaProduto.hasMany(Produto, {
-    foreignKey: 'idCategoria',
-    as: 'produtosDaCategoria',
-    onDelete: 'SET NULL', // Se a Categoria for deletada, o produto fica sem
-    onUpdate: 'CASCADE'
-})
-
-// ATENÇÃO: É necessário adicionar idCategoria no modelo Produto.js
-// Produto.js deve ter: idCategoria
-Produto.belongsTo(CategoriaProduto, {
-    foreignKey: 'idCategoria',
-    as: 'categoriaProduto',
-    onDelete: 'SET NULL', 
-    onUpdate: 'CASCADE'
-})
 
 // PRODUTO <-> ITEM_PEDIDO (1:N)
 Produto.hasMany(ItemPedido, {

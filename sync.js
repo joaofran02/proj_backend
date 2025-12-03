@@ -5,7 +5,7 @@ const {
     Pedido, 
     Produto, 
     ItemPedido, 
-    Entrega, 
+    Endereco,
     Estoque 
 } = require('./src/models/rel') 
 
